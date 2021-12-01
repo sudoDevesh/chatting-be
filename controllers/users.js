@@ -57,3 +57,12 @@ export const loginUser = async (req, res) => {
   console.log(data);
   res.status(200).json(data);
 };
+
+//Get Self By Id
+export const getSelfById = async (req, res) => {
+  const token = req.headers.authorization.split(" ")[1];
+  const data = jwt.decode(token);
+  const user = await User.findOne({ _id: data?.id });
+  if (!user) return res.status(400).json("Cannot Found User");
+  res.status(200).json(user);
+};
